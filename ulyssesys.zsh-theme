@@ -1,30 +1,29 @@
-# Clean, simple, compatible and meaningful.
-# Tested on Linux, Unix and Windows under ANSI colors.
-# It is recommended to use with a dark background.
-# Colors: black, red, green, yellow, *blue, magenta, cyan, and white.
-#
-# Mar 2013 Yad Smood
+# https://github.com/ulysseszh/ulyssesys
 
-# Modified by Ulysses on Aug 8 2020
-
-# VCS
-YS_VCS_PROMPT_SUFFIX="%{$reset_color%}"
-YS_VCS_PROMPT_DIRTY=" %{$fg[red]%}x"
-YS_VCS_PROMPT_CLEAN=" %{$fg[green]%}o"
-
-# Git info
-local git_info='$(git_prompt_info)'
 ZSH_THEME_GIT_PROMPT_PREFIX=" %{$fg[cyan]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="$YS_VCS_PROMPT_SUFFIX"
-ZSH_THEME_GIT_PROMPT_DIRTY="$YS_VCS_PROMPT_DIRTY"
-ZSH_THEME_GIT_PROMPT_CLEAN="$YS_VCS_PROMPT_CLEAN"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}x"
+ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}o"
 
-local exit_code="%(?,,%{$fg[red]%}%?%{$reset_color%})"
+local num='%{$terminfo[bold]$fg[cyan]%}%i%{$reset_color%}'
+local pwd='%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}'
+local prompt='%{$terminfo[bold]$fg[magenta]%}%#%{$reset_color%}'
+local exit_code='%(?,,%{$fg[red]%}%?%{$reset_color%})'
+local git='$(git_prompt_info)'
 
-RPROMPT="${git_info}"
+if [[ ( -n ${IN_NIX_SHELL} && ${IN_NIX_SHELL} != "0" ) || ( -n ${IN_NIX_RUN} && ${IN_NIX_RUN} != "0" ) ]] then
+	if [[ -n ${IN_WHICH_NIX_SHELL} ]] then
+		nix_shell_name=": ${IN_WHICH_NIX_SHELL}"
+	fi
+	if [[ -n ${IN_NIX_SHELL} && ${IN_NIX_SHELL} != "0" ]] then
+		nix_shell_name="nix-shell$nix_shell_name"
+	else
+		nix_shell_name="nix-run$nix_shell_name"
+	fi
+	nix_shell='%{$terminfo[bold]$fg[blue]%}'$nix_shell_name'%{$reset_color%} '
+fi
 
+RPROMPT="$git"
 PROMPT="
-%{$terminfo[bold]$fg[cyan]%}%i%{$reset_color%} \
-%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%} \
-$exit_code
-%{$terminfo[bold]$fg[magenta]%}%# %{$reset_color%}"
+$nix_shell$num $pwd $exit_code
+$prompt "

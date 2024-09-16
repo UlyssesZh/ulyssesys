@@ -9,6 +9,8 @@ and virtual terminals (text TTY).
 - The colors are designed so that this theme can be used with both light and dark backgrounds.
 - Shows command index, full path to the current directory, exit code of last command, and current Git branch,
 in a non-cluttering way.
+- Indicates `nix-shell` environment
+(use with the [nix-shell plugin](https://github.com/chisui/zsh-nix-shell)).
 
 ## Screenshots
 
