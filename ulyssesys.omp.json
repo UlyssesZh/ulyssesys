@@ -1,0 +1,67 @@
+{
+	"$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+	"blocks": [
+		{
+			"type": "prompt",
+			"alignment": "left",
+			"newline": true,
+			"segments": [
+				{
+					"foreground": "blue",
+					"style": "plain",
+					"template": "nix-shell ",
+					"type": "nix-shell"
+				},
+				{
+					"foreground": "cyan",
+					"style": "plain",
+					"template": "{{ .PromptCount }}",
+					"type": "text"
+				},
+				{
+					"foreground": "yellow",
+					"properties": {
+						"style": "full"
+					},
+					"style": "plain",
+					"template": " {{ .Path }}",
+					"type": "path"
+				},
+				{
+					"foreground": "red",
+					"style": "plain",
+					"template": "{{ if gt .Code 0 }} {{ .Code }}{{ end }} ",
+					"type": "status"
+				}
+			]
+		},
+		{
+			"type": "prompt",
+			"alignment": "left",
+			"newline": true,
+			"segments": [
+				{
+					"foreground": "magenta",
+					"style": "plain",
+					"template": "{{ if .Root }}#{{ else }}%{{ end }}",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"type": "rprompt",
+			"segments": [
+				{
+					"style": "plain",
+					"template": "<cyan>{{ .Ref }}</> {{ if .Working.Changed }}<red>x</>{{ else }}<green>o</>{{ end }} ",
+					"type": "git",
+					"properties": {
+						"fetch_status": true
+					}
+				}
+			]
+		}
+	],
+	"final_space": true,
+	"version": 2
+}
