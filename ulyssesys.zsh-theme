@@ -11,6 +11,14 @@ local prompt='%{$terminfo[bold]$fg[magenta]%}%#%{$reset_color%}'
 local exit_code='%(?,,%{$fg[red]%}%?%{$reset_color%})'
 local git='$(git_prompt_info)'
 
+if [[ -n $container ]] then
+	if [[ -n $CONTAINER_ID ]] then
+		container_name=": $CONTAINER_ID"
+	fi
+	container_name="$container$container_name"
+	container_name='%{$terminfo[bold]$fg[blue]%}'$container_name'%{$reset_color%} '
+fi
+
 if [[ ( -n ${IN_NIX_SHELL} && ${IN_NIX_SHELL} != "0" ) || ( -n ${IN_NIX_RUN} && ${IN_NIX_RUN} != "0" ) ]] then
 	if [[ -n ${IN_WHICH_NIX_SHELL} ]] then
 		nix_shell_name=": ${IN_WHICH_NIX_SHELL}"
@@ -25,5 +33,5 @@ fi
 
 RPROMPT="$git"
 PROMPT="
-$nix_shell$num $pwd $exit_code
+$container_name$nix_shell$num $pwd $exit_code
 $prompt "
